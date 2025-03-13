@@ -15,7 +15,7 @@
   <div class="container">
     <div class="main-content">
       <div class="card">
-        <img class="event-image" src="https://wistatefair.com/fair/wp-content/uploads/2013/11/vendor-stages-600x400-1.png" alt="Conference image showing people at an event with purple lighting">
+        <img class="event-img" src="https://wistatefair.com/fair/wp-content/uploads/2013/11/vendor-stages-600x400-1.png" alt="Conference image showing people at an event with purple lighting">
         
         <h2>Event Information</h2>
         <p>Influential media, entertainment & technology show inspirational speakers including game-changing, not just a large-scale conference, but a large educational hub on digital technology for business, where people communicate, and are inspired to find ready-made solutions or business. Taking place over two days this year will be the 10th Conference ideas with a theme of DangerBeauties. It features sessions.</p>
