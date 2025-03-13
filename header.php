@@ -7,19 +7,20 @@
 </head>
 
 <header>
-        <div class="container">
-            <div class="logo">Farha<span>Assosiation</span></div>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">Vendor</a></li>
-                    <li><a href="#">Pages</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-            <?php if (isset($_SESSION['utilisateur_name'])) { ?>
+    <div class="container">
+        <div class="logo">Farha<span>Assosiation</span></div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Vendor</a></li>
+                <li><a href="#">Pages</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+
+        <?php if (isset($_SESSION['utilisateur_name'])) { ?>
             <div class="profile-dropdown">
                 <button id="profileButton" class="profile-btn">
                     <img src="img/profile.jpg" alt="Profile" class="profile-img">
@@ -34,6 +35,6 @@
             </div>
         <?php } else { ?>
             <a href="login.php" class="btn">Sign in</a>
-        <?php } ?>        </div>
-    </header>
-
+        <?php } ?>
+    </div>
+</header>

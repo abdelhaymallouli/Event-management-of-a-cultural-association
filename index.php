@@ -2,13 +2,59 @@
 session_start();
 require 'config.php';
 
+$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+$startDate = isset($_GET['startDate']) ? $_GET['startDate'] : '';
+$endDate = isset($_GET['endDate']) ? $_GET['endDate'] : '';
+$category = isset($_GET['category']) ? $_GET['category'] : '';
+
+
+// affiche les evenements 
 $query = 'SELECT e.eventTitle AS event_title, e.eventDescription AS event_description, e.eventType AS typeEvent, e.TariffNormal, e.TariffReduit, 
                  ed.image AS event_image, ed.dateEvent AS edition_date, ed.timeEvent AS edition_time, ed.NumSalle 
           FROM evenement e
-          LEFT JOIN edition ed ON e.eventId = ed.eventId';
+        JOIN edition ed ON e.eventId = ed.eventId';
+
+if ($searchTerm) {
+    $query .= ' WHERE e.eventTitle LIKE :searchTerm';
+}
+
+if($startDate && $endDate){
+    $query .= ' AND ed.dateEvent BETWEEN :startDate AND :endDate';
+} else {
+    if($startDate){
+        $query.= ' AND ed.dateEvent >= :startDate';
+    }
+    if($endDate){
+        $query.= ' AND ed.dateEvent <= :endDate';
+    }
+}
+
+if($category) {
+    $query.= ' AND e.eventType = :category';
+}
+
 $stmt = $pdo->prepare($query);
+
+// Bind parameters using bindParam
+if ($searchTerm) {
+    $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
+}
+
+if ($startDate) {
+    $stmt->bindParam(':startDate', $startDate, PDO::PARAM_STR);
+}
+
+if ($endDate) {
+    $stmt->bindParam(':endDate', $endDate, PDO::PARAM_STR);
+}
+
+if ($category) {
+    $stmt->bindParam(':category', $category, PDO::PARAM_STR);
+}
+
 $stmt->execute();
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 ?>
 
 <!DOCTYPE html>
@@ -30,25 +76,37 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <p>Find Your Next Experience</p>
-            <h1>Discover & Promote Upcoming Events</h1>
-            <div class="search-bar">
+    <div class="hero-content">
+        <p>Find Your Next Experience</p>
+        <h1>Discover & Promote Upcoming Events</h1>
+        <div class="search-bar">
+            <form action="" method="get">
                 <img src="img/search.svg" alt="">
-                <input type="text" placeholder="Search Event">
-                <img src="img/location.svg" alt="">
-                <input type="text" placeholder="Search Location">
+                <input type="text" name="search" placeholder="Search Event" value="<?php echo htmlspecialchars($searchTerm); ?>">
+
+                <img src="img/calendar.svg" alt="">
+                <input type="date" name="startDate" placeholder="Start Date" value="<?php echo htmlspecialchars($startDate); ?>">
+
+                <img src="img/calendar.svg" alt="">
+                <input type="date" name="endDate" placeholder="End Date" value="<?php echo htmlspecialchars($endDate); ?>">
+
                 <img src="img/category.svg" alt="">
-                <select>
-                    <option>Category</option>
-                    <option>Music</option>
-                    <option>Tech</option>
-                    <option>Sports</option>
+                <select name="category">
+                    <option value="" selected >Category</option>
+                    <option value="Musique" <?php if ($category == 'Musique') echo 'selected'; ?>>Musique</option>
+                    <option value="Théatre" <?php if ($category == 'Théatre') echo 'selected'; ?>>Théatre</option>
+                    <option value="Cinéma" <?php if ($category == 'Cinéma') echo 'selected'; ?>>Cinéma</option>
+                    <option value="Rencontres" <?php if ($category == 'Rencontres') echo 'selected'; ?>>Rencontres</option>
+
                 </select>
-                <button><i class="fas fa-search"></i></button>
-            </div>
+
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
         </div>
-    </section>
+    </div>
+</section>
+
+
 
 
     <section class="container-2">

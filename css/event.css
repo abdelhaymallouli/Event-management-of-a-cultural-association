@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Gothic+A1&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Gothic A1", sans-serif;
+
+  }
+  
+  body {
+    background-color: #f5f5fc;
+    display: flex;
+    justify-content: center;
+  } 
+  
+  .container {
+    margin-top: 50%;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .main-content {
+    flex: 2;
+  }
+  
+  .sidebar {
+    flex: 1;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .event-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  h2 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  p {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  ul {
+    list-style-position: inside;
+    margin: 10px 0;
+  }
+  
+  li {
+    font-size: 14px;
+    margin: 5px 0;
+    color: #666;
+  }
+  
+  .date-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+  }
+  
+  .date-label {
+    font-weight: bold;
+    font-size: 14px;
+  }
+  
+  .date-value {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .ticket-type {
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+  }
+  
+  .ticket-type-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .ticket-type-name {
+    font-weight: bold;
+    color: #6200ee;
+  }
+  
+  .tickets-remaining {
+    font-size: 12px;
+    color: #888;
+  }
+  
+  .ticket-details {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .quantity-selector {
+    display: flex;
+    align-items: center;
+  }
+  
+  .quantity-selector button {
+    width: 25px;
+    height: 25px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+  }
+  
+  .quantity-selector input {
+    width: 40px;
+    height: 25px;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin: 0 5px;
+  }
+  
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin: 10px 0;
+    padding-top: 10px;
+    border-top: 1px solid #eee;
+  }
+  
+  .get-tickets-btn {
+    background-color: #eee;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .calendar-option {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .calendar-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  .tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+  }
+  
+  .tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+  }
+  
+  .tab.active {
+    color: #6200ee;
+  }
+  
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #6200ee;
+  }
+  
+  .session-time {
+    font-size: 12px;
+    color: #666;
+    margin: 10px 0;
+  }

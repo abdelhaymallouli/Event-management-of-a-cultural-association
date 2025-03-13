@@ -6,6 +6,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $last_name = $_POST['last_name'];
     $first_name = $_POST['first_name'];
     $email = $_POST['email'];
+    $password = $_POST['password'];
 
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE mailUser = ?");
     $stmt->execute([$email]);
@@ -19,8 +20,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = $stmt->fetch();
         $new_id = ($row['last_id'] ?? 0) + 1;
 
-        $stmt = $pdo->prepare("INSERT INTO utilisateur (idUser, nomUser, prenomUser, mailUser) VALUES (?,?,?,?)");
-        if($stmt->execute([$new_id, $last_name, $first_name, $email])) {        
+        
+
+        $stmt = $pdo->prepare("INSERT INTO utilisateur (idUser, nomUser, prenomUser, mailUser, motPasse) VALUES (?,?,?,?,?)");
+        if($stmt->execute([$new_id, $last_name, $first_name, $email, $password])) {        
             $_SESSION['utilisateur_id']= $new_id;
             $_SESSION['client_name'] = "$last_name $first_name";
 
@@ -48,7 +51,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="" method="POST">
             <input type="text" name="last_name" placeholder="Last name" required>
             <input type="text" name="first_name" placeholder="First name" required>
-            <input type="text" name="email" placeholder="Email" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
             <button type="submit" name="signup">Sign Up</button>
         </form>
         <?php if (isset($error)) { echo "<p class='error-message'>$error</p>"; } ?>

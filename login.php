@@ -1,25 +1,29 @@
-<?php 
+<?php
 session_start();
 require 'config.php';
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = $_POST['email'];
+    $password = $_POST['password'];
 
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE mailUser = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if($user){
+    if ($user) {
+        if($password === $user['motPasse']) {
         $_SESSION['utilisateur_id'] = $user["idUser"];
-        $_SESSION['utilisateur_name'] = $user['nomUser']. " ". $user['prenomUser'];
+        $_SESSION['utilisateur_name'] = $user['nomUser'] . " " . $user['prenomUser'];
 
         header("Location: index.php");
         exit();
-    }else {
-        $error = "Email ou mot de passe incorrect.";
+    } else {
+        $error = "Email or password is incorrect.";
     }
 }
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,11 +38,12 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         <div class="login-box">
             <h2>Login</h2>
             <form action="login.php" method="POST">
-                <input type="text" name="email" placeholder="Email" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
             <?php if(isset($error)) { echo "<p class='error'>$error</p>"; } ?>
-            <p class="signup-link">Don't have an account? <a href="sign-up.php">Sign Up</a></p> <!-- Link to sign-up page -->
+            <p class="signup-link">Don't have an account? <a href="sign-up.php">Sign Up</a></p>
         </div>
     </section>
 </body>
