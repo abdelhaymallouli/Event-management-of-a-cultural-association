@@ -20,12 +20,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = $stmt->fetch();
         $new_id = ($row['last_id'] ?? 0) + 1;
 
-        
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
 
         $stmt = $pdo->prepare("INSERT INTO utilisateur (idUser, nomUser, prenomUser, mailUser, motPasse) VALUES (?,?,?,?,?)");
-        if($stmt->execute([$new_id, $last_name, $first_name, $email, $password])) {        
+        if($stmt->execute([$new_id, $last_name, $first_name, $email, $hashedPassword])) {
             $_SESSION['utilisateur_id']= $new_id;
-            $_SESSION['client_name'] = "$last_name $first_name";
+            $_SESSION['utilisateur_name'] = "$last_name $first_name";
 
             header('Location: index.php');
             exit();

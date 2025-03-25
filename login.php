@@ -5,23 +5,33 @@ require 'config.php';
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $email = $_POST['email'];
     $password = $_POST['password'];
+    
 
     $stmt = $pdo->prepare("SELECT * FROM utilisateur WHERE mailUser = ?");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if ($user) {
-        if($password === $user['motPasse']) {
-        $_SESSION['utilisateur_id'] = $user["idUser"];
-        $_SESSION['utilisateur_name'] = $user['nomUser'] . " " . $user['prenomUser'];
+    // Debugging: Print user data
+    echo '<pre>';
+    var_dump($user);
+    echo '</pre>';
 
-        header("Location: index.php");
-        exit();
+    if ($user) {
+        if (password_verify($password, $user['motPasse'])) {
+            $_SESSION['utilisateur_id'] = $user["idUser"];
+            $_SESSION['utilisateur_name'] = $user['nomUser'] . " " . $user['prenomUser'];
+    
+            header("Location: index.php");
+            exit();
+        } else {
+            $error = "Incorrect password.";
+        }
     } else {
-        $error = "Email or password is incorrect.";
+        $error = "Email not found.";
     }
+    
 }
-}
+
 ?>
 
 

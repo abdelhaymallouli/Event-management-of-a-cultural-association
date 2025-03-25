@@ -8,7 +8,7 @@
 
 <header>
     <div class="container">
-        <div class="logo">Farha<span>Assosiation</span></div>
+        <a href="index.php" class="logo">Farha<span>Assosiation</span></a>
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>

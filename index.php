@@ -8,42 +8,40 @@ $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : '';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 
 
-// affiche les evenements 
-$query = 'SELECT e.eventTitle AS event_title, e.eventDescription AS event_description, e.eventType AS typeEvent, e.TariffNormal, e.TariffReduit, 
+// Initial query
+$query = 'SELECT e.eventId, ed.editionId, e.eventTitle AS event_title, e.eventDescription AS event_description, e.eventType AS typeEvent, e.TariffNormal, e.TariffReduit, 
                  ed.image AS event_image, ed.dateEvent AS edition_date, ed.timeEvent AS edition_time, ed.NumSalle 
           FROM evenement e
           JOIN edition ed ON e.eventId = ed.eventId
           WHERE ed.dateEvent >= CURDATE()';
-         
 
-// search
+// Add search condition if searchTerm is set
 if ($searchTerm) {
-    $query .= ' WHERE e.eventTitle LIKE :searchTerm';
+    $query .= ' AND e.eventTitle LIKE :searchTerm';
 }
 
-// date
-if($startDate && $endDate){
+// Add date conditions if startDate and endDate are set
+if ($startDate && $endDate) {
     $query .= ' AND ed.dateEvent BETWEEN :startDate AND :endDate';
 } else {
-    if($startDate){
-        $query.= ' AND ed.dateEvent >= :startDate';
+    if ($startDate) {
+        $query .= ' AND ed.dateEvent >= :startDate';
     }
-    if($endDate){
-        $query.= ' AND ed.dateEvent <= :endDate';
+    if ($endDate) {
+        $query .= ' AND ed.dateEvent <= :endDate';
     }
 }
 
-// category
-if($category) {
-    $query.= ' AND e.eventType = :category';
+// Add category condition if category is set
+if ($category) {
+    $query .= ' AND e.eventType = :category';
 }
 
 $stmt = $pdo->prepare($query);
 
-
-// Bind parameters using bindParam
+// Bind parameters
 if ($searchTerm) {
-    $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
+    $stmt->bindValue(':searchTerm', '%' . $searchTerm . '%', PDO::PARAM_STR);
 }
 
 if ($startDate) {
@@ -60,6 +58,7 @@ if ($category) {
 
 $stmt->execute();
 $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 ?>
 
@@ -137,8 +136,8 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="organizer-text">Type :</div>
                             <div class="vendor-name"><?php echo $event['typeEvent']; ?></div>
                         </div>
-                        <button class="buy-now-btn">BUY NOW</button>
-                    </div>
+                        <a href="event.php?eventId=<?php echo $event['eventId']; ?>&editionId=<?php echo $event['editionId']; ?>" class="buy-now-btn">BUY NOW</a>
+                        </div>
                 </div>
             </div>
         <?php endforeach; ?>

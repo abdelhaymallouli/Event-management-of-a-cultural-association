@@ -1,3 +1,49 @@
+<?php
+session_start();
+require 'config.php';
+
+$eventId = isset($_GET['eventId']) ? $_GET['eventId'] : '';
+$editionId = isset($_GET['editionId']) ? $_GET['editionId'] : '';
+
+if (!$eventId || !$editionId) {
+  echo 'Invalid event selection';
+  exit();
+}
+
+$query = 'SELECT e.eventTitle, e.eventDescription, e.eventType, e.TariffNormal, e.TariffReduit,
+       ed.image, ed.dateEvent, ed.timeEvent, ed.NumSalle, s.capSalle
+FROM evenement e
+JOIN edition ed ON e.eventId = ed.eventId
+JOIN salle s ON ed.NumSalle = s.NumSalle
+WHERE e.eventId = :eventId AND ed.editionId = :editionId
+';
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':eventId', $eventId);
+$stmt->bindParam(':editionId', $editionId);
+$stmt->execute();
+$event = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$event) {
+  echo 'Event not found';
+  exit();
+}
+
+
+$queryReserved = '
+  SELECT SUM(r.qteBilletsNormal) AS reservedNormal, SUM(r.qteBilletsReduit) AS reservedReduit
+  FROM reservation r
+  WHERE r.editionId = :editionId';
+
+$stmtReserved = $pdo->prepare($queryReserved);
+$stmtReserved->bindParam(':editionId', $editionId);
+$stmtReserved->execute();
+$reserved = $stmtReserved->fetch(PDO::FETCH_ASSOC);
+
+// Calculate the remaining tickets
+$remainingNormal = $event['capSalle'] - ($reserved['reservedNormal'] ?? 0);
+$remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,60 +63,30 @@
   <div class="container">
     <div class="main-content">
       <div class="card">
-        <img class="event-img" src="https://wistatefair.com/fair/wp-content/uploads/2013/11/vendor-stages-600x400-1.png"
+        <img class="event-img" src="<?php echo htmlspecialchars($event['image']); ?>"
           alt="Conference image showing people at an event with purple lighting">
 
         <h2>Event Information</h2>
-        <p>Influential media, entertainment & technology show inspirational speakers including game-changing, not just a
-          large-scale conference, but a large educational hub on digital technology for business, where people
-          communicate, and are inspired to find ready-made solutions or business. Taking place over two days this year
-          will be the 10th Conference ideas with a theme of DangerBeauties. It features sessions.</p>
+        <p><?php echo htmlspecialchars($event['eventTitle']) ?></p>
 
         <h2>Event About</h2>
-        <p>Are you a founder that is building a new better future for women?</p>
-        <p>Are you working with another co-founder or considering finding one?</p>
-        <p>Learn how to build a co-founder relationship more effectively at this virtual event!</p>
-        <p>Topics include:</p>
-        <ul>
-          <li>Creating a co-founder agreement</li>
-          <li>Importance of defined roles</li>
-          <li>Creating a co-founder agreement</li>
-          <li>Importance of defined roles</li>
-        </ul>
-
-        <p>Are you a founder that is building a new better future for women?</p>
-        <p>Are you working with another co-founder or considering finding one?</p>
-        <p>Learn how to build a co-founder relationship more effectively at virtual events!</p>
+        <p><?php echo htmlspecialchars($event['eventDescription']); ?></p>
       </div>
 
-      <div class="card">
-        <div class="tabs">
-          <div class="tab active">29 Sep</div>
-          <div class="tab">06 Oct</div>
-          <div class="tab">13 Oct</div>
-        </div>
-
-        <div class="session-time">11:00 AM - 12:00 PM</div>
-        <p>Web Component Design Maintaining</p>
-      </div>
     </div>
 
     <div class="sidebar">
       <div class="card">
         <div class="date-info">
           <span class="date-label">Date :</span>
-          <span class="date-value">September 5, 2025 - September 12, 2025</span>
+          <span class="date-value"><?php echo date('d M Y', strtotime($event['dateEvent'])); ?></span>
         </div>
 
         <div class="date-info">
           <span class="date-label">Time :</span>
-          <span class="date-value">10:00 am - 10:00 pm (Asia/Dhaka)</span>
+          <span class="date-value"><?php echo date('H:i', strtotime($event['timeEvent'])); ?></span>
         </div>
 
-        <div class="date-info">
-          <span class="date-label">Venue :</span>
-          <span class="date-value">Chicago</span>
-        </div>
       </div>
 
       <div class="card">
@@ -78,62 +94,61 @@
 
         <div class="ticket-type">
           <div class="ticket-type-header">
-            <span class="ticket-type-name">DEFAULT</span>
-            <span class="tickets-remaining">(9985 seats remaining)</span>
+            <span class="ticket-type-name">Normal</span>
+            <span class="tickets-remaining">(<?php echo $remainingNormal; ?> seats remaining)</span>
           </div>
 
           <div class="ticket-details">
-            <span>Ticket Price:</span>
-            <span>$100.00</span>
+            <span>Ticket Normal:</span>
+            <span><?php echo number_format($event['TariffNormal'], 2); ?></span>
           </div>
 
           <div class="ticket-details">
             <span>Quantity:</span>
             <div class="quantity-selector">
-              <button>-</button>
-              <input type="text" value="0">
-              <button>+</button>
+              <input type="number" value="0" min="0" step="1" class="quantity-input">
             </div>
           </div>
 
           <div class="ticket-details">
             <span>Subtotal:</span>
-            <span>$0.00</span>
+            <span class="subtotal">$0.00</span> <!-- Added this span -->
           </div>
         </div>
 
         <div class="ticket-type">
           <div class="ticket-type-header">
-            <span class="ticket-type-name">VIP</span>
-            <span class="tickets-remaining">(9994 seats remaining)</span>
+            <span class="ticket-type-name">Reduit</span>
+            <span class="tickets-remaining">(<?php echo $remainingReduit; ?> seats remaining)</span>
           </div>
 
           <div class="ticket-details">
-            <span>Ticket Price:</span>
-            <span>$200.00</span>
+            <span>Ticket Reduit:</span>
+            <span><?php echo number_format($event['TariffReduit'], 2); ?></span>
           </div>
 
           <div class="ticket-details">
             <span>Quantity:</span>
             <div class="quantity-selector">
-              <button>-</button>
-              <input type="text" value="0">
-              <button>+</button>
+              <input type="number" value="0" min="0" step="1" class="quantity-input">
             </div>
           </div>
 
           <div class="ticket-details">
             <span>Subtotal:</span>
-            <span>$0.00</span>
+            <span class="subtotal">$0.00</span>
           </div>
+
+          <div class="ticket-details">
+          <div class="total-row">
+          <span class="quantity-value">Quantity: 0</span>
+          <span class="total-value">Total: $0.00</span>
+          </div>
+          </div>
+          <button class="get-tickets-btn">GET TICKETS</button>
         </div>
 
-        <div class="total-row">
-          <span>Quantity: 0</span>
-          <span>Total: $0.00</span>
-        </div>
 
-        <button class="get-tickets-btn">GET TICKETS</button>
       </div>
 
       <div class="card">
@@ -151,5 +166,38 @@
     </div>
   </div>
 </body>
+
+<script>
+  document.querySelectorAll('.quantity-input').forEach(input => {
+    input.addEventListener('input', function () {
+      updateSubtotalAndTotal();
+    });
+  });
+
+  
+  function updateSubtotalAndTotal() {
+  let totalQuantity = 0;
+  let totalPrice = 0;
+
+  document.querySelectorAll('.ticket-type').forEach(ticket => {
+    const price = parseFloat(ticket.querySelectorAll('.ticket-details span')[1].textContent.replace('$', '').trim());
+    const quantity = parseInt(ticket.querySelector('.quantity-input').value) || 0;
+
+    const subtotal = price * quantity;
+    ticket.querySelector('.subtotal').textContent = `$${subtotal.toFixed(2)}`;
+
+    totalQuantity += quantity;
+    totalPrice += subtotal;
+  });
+
+  // Update the final quantity and total
+  document.querySelector('.quantity-value').textContent = `Quantity: ${totalQuantity}`;
+  document.querySelector('.total-value').textContent = `Total: $${totalPrice.toFixed(2)}`;
+}
+
+
+
+
+</script>
 
 </html>
