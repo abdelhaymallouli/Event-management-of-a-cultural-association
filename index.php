@@ -12,12 +12,16 @@ $category = isset($_GET['category']) ? $_GET['category'] : '';
 $query = 'SELECT e.eventTitle AS event_title, e.eventDescription AS event_description, e.eventType AS typeEvent, e.TariffNormal, e.TariffReduit, 
                  ed.image AS event_image, ed.dateEvent AS edition_date, ed.timeEvent AS edition_time, ed.NumSalle 
           FROM evenement e
-        JOIN edition ed ON e.eventId = ed.eventId';
+          JOIN edition ed ON e.eventId = ed.eventId
+          WHERE ed.dateEvent >= CURDATE()';
+         
 
+// search
 if ($searchTerm) {
     $query .= ' WHERE e.eventTitle LIKE :searchTerm';
 }
 
+// date
 if($startDate && $endDate){
     $query .= ' AND ed.dateEvent BETWEEN :startDate AND :endDate';
 } else {
@@ -29,11 +33,13 @@ if($startDate && $endDate){
     }
 }
 
+// category
 if($category) {
     $query.= ' AND e.eventType = :category';
 }
 
 $stmt = $pdo->prepare($query);
+
 
 // Bind parameters using bindParam
 if ($searchTerm) {
