@@ -91,6 +91,8 @@ $remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
 
       <div class="card">
         <h2>Tickets</h2>
+        <form action="purchase.php" method="POST">
+        <input type="hidden" name="editionId" value="<?php echo htmlspecialchars($editionId); ?>">
 
         <div class="ticket-type">
           <div class="ticket-type-header">
@@ -106,13 +108,13 @@ $remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
           <div class="ticket-details">
             <span>Quantity:</span>
             <div class="quantity-selector">
-              <input type="number" value="0" min="0" step="1" class="quantity-input">
+            <input type="number" name="qteBilletsNormal" value="0" min="0" step="1" class="quantity-input">
             </div>
           </div>
 
           <div class="ticket-details">
             <span>Subtotal:</span>
-            <span class="subtotal">$0.00</span> <!-- Added this span -->
+            <span class="subtotal">$0.00</span>
           </div>
         </div>
 
@@ -130,7 +132,7 @@ $remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
           <div class="ticket-details">
             <span>Quantity:</span>
             <div class="quantity-selector">
-              <input type="number" value="0" min="0" step="1" class="quantity-input">
+            <input type="number" name="qteBilletsReduit" value="0" min="0" step="1" class="quantity-input">
             </div>
           </div>
 
@@ -145,8 +147,9 @@ $remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
           <span class="total-value">Total: $0.00</span>
           </div>
           </div>
-          <button class="get-tickets-btn">GET TICKETS</button>
+          <button class="get-tickets-btn">Get Your Tickets</button>
         </div>
+        </form>
 
 
       </div>

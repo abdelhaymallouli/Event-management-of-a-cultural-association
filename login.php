@@ -11,11 +11,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    // Debugging: Print user data
-    echo '<pre>';
-    var_dump($user);
-    echo '</pre>';
-
     if ($user) {
         if (password_verify($password, $user['motPasse'])) {
             $_SESSION['utilisateur_id'] = $user["idUser"];

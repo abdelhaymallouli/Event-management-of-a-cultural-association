@@ -39,6 +39,11 @@
     padding: 20px;
     margin-bottom: 20px;
   }
+
+  .card form {
+    display: flex;
+    flex-direction: column
+  }
   
   .event-img {
     width: 100%;
