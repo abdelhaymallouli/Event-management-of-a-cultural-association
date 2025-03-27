@@ -9,16 +9,7 @@
 <header>
     <div class="container">
         <a href="index.php" class="logo">Farha<span>Assosiation</span></a>
-        <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Vendor</a></li>
-                <li><a href="#">Pages</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </nav>
+        
 
         <?php if (isset($_SESSION['utilisateur_name'])) { ?>
             <div class="profile-dropdown">
@@ -29,7 +20,6 @@
                 </button>
                 <div id="dropdownMenu" class="dropdown-menu">
                     <a href="profile.php">Profile</a>
-                    <a href="#">Settings</a>
                     <a href="logout.php">Log Out</a>
                 </div>
             </div>

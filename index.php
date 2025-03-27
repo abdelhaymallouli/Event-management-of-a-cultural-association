@@ -9,10 +9,13 @@ $category = isset($_GET['category']) ? $_GET['category'] : '';
 
 
 // Initial query
-$query = 'SELECT e.eventId, ed.editionId, e.eventTitle AS event_title, e.eventDescription AS event_description, e.eventType AS typeEvent, e.TariffNormal, e.TariffReduit, 
-                 ed.image AS event_image, ed.dateEvent AS edition_date, ed.timeEvent AS edition_time, ed.NumSalle 
+$query = 'SELECT e.eventId, ed.editionId, e.eventTitle AS event_title, e.eventDescription AS event_description, 
+                 e.eventType AS typeEvent, e.TariffNormal, e.TariffReduit, ed.image AS event_image, 
+                 ed.dateEvent AS edition_date, ed.timeEvent AS edition_time, ed.NumSalle, s.capSalle,
+                 (SELECT SUM(r.qteBilletsNormal) + SUM(r.qteBilletsReduit) FROM reservation r WHERE r.editionId = ed.editionId) AS total_reserved
           FROM evenement e
           JOIN edition ed ON e.eventId = ed.eventId
+          JOIN salle s ON ed.NumSalle = s.NumSalle
           WHERE ed.dateEvent >= CURDATE()';
 
 // Add search condition if searchTerm is set
@@ -121,7 +124,10 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <div class="events-grid">
-        <?php foreach ($events as $event): ?>
+        <?php foreach ($events as $event): 
+            $totalReserved = $event['total_reserved'] ?? 0;
+            $remainingTickets = max(0, $event['capSalle'] - $totalReserved);
+            ?>
             <div class="event-card">
                 <img class="event-image" src="<?php echo $event['event_image']; ?>" alt="Event Image">
                 <div class="event-details">
@@ -136,8 +142,14 @@ $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             <div class="organizer-text">Type :</div>
                             <div class="vendor-name"><?php echo $event['typeEvent']; ?></div>
                         </div>
+                        <?php if ($remainingTickets <= 0): ?>
+                    <img src="img/soldout.png" alt="" class="soldout">
+                    <a href="event.php?eventId=<?php echo $event['eventId']; ?>&editionId=<?php echo $event['editionId']; ?>" class="buy-now-btn-soldout">BUY NOW</a>
+                    <?php else:?>
                         <a href="event.php?eventId=<?php echo $event['eventId']; ?>&editionId=<?php echo $event['editionId']; ?>" class="buy-now-btn">BUY NOW</a>
-                        </div>
+                    <?php endif; ?>    
+
+                </div>
                 </div>
             </div>
         <?php endforeach; ?>

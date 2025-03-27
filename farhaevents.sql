@@ -45,7 +45,8 @@ CREATE TABLE `edition` (
   `dateEvent` date NOT NULL,
   `timeEvent` time NOT NULL,
   `eventId` char(6) NOT NULL,
-  `NumSalle` int(11) NOT NULL
+  `NumSalle` int(11) NOT NULL,
+  'image'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

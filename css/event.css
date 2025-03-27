@@ -34,12 +34,23 @@
   
   .card {
     background-color: white;
+    position: relative;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     padding: 20px;
     margin-bottom: 20px;
   }
 
+  .soldout {
+    position: absolute;
+    width: 20px;
+    /* object-fit: contain; /
+    top: 1px;
+    right: 10px;
+    z-index: 10;
+    transform: rotate(-deg);
+    / Optional: slight tilt */
+  }
   .card form {
     display: flex;
     flex-direction: column

@@ -56,8 +56,8 @@ if(!$reservation) {
                     <p><strong>Référence :</strong> <?= htmlspecialchars($reservation['idReservation']) ?></p>
                 </div>
                 <div class="action-buttons">
-                    <a href="tickets.php?id=<?= urlencode($reservation['idReservation']) ?>" class="btn">Voir mes billets</a>
-                    <a href="invoice.php?id=<?= urlencode($reservation['idReservation']) ?>" class="btn">Voir ma facture</a>
+                    <a href="ticket.php?id=<?= urlencode($reservation['idReservation']) ?>" class="btn">Voir mes billets</a>
+                    <a href="facteur.php?id=<?= urlencode($reservation['idReservation']) ?>" class="btn">Voir ma facture</a>
                     <a href="index.php" class="btn secondary">Retour à l'accueil</a>
                 </div>
             </div>

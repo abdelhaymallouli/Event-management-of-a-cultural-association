@@ -39,9 +39,9 @@ $stmtReserved->bindParam(':editionId', $editionId);
 $stmtReserved->execute();
 $reserved = $stmtReserved->fetch(PDO::FETCH_ASSOC);
 
-// Calculate the remaining tickets
-$remainingNormal = $event['capSalle'] - ($reserved['reservedNormal'] ?? 0);
-$remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
+$totalReserved = ($reserved['reservedNormal'] ?? 0) + ($reserved['reservedReduit'] ?? 0);
+$remainingTickets = max(0, $event['capSalle'] - $totalReserved);
+
 
 ?>
 <!DOCTYPE html>
@@ -97,12 +97,12 @@ $remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
         <div class="ticket-type">
           <div class="ticket-type-header">
             <span class="ticket-type-name">Normal</span>
-            <span class="tickets-remaining">(<?php echo $remainingNormal; ?> seats remaining)</span>
+            <span class="tickets-remaining">(<?php echo $remainingTickets; ?> seats remaining)</span>
           </div>
 
           <div class="ticket-details">
             <span>Ticket Normal:</span>
-            <span><?php echo number_format($event['TariffNormal'], 2); ?></span>
+            <span><?php echo number_format($event['TariffNormal'], decimals: 2); ?></span>
           </div>
 
           <div class="ticket-details">
@@ -121,7 +121,7 @@ $remainingReduit = $event['capSalle'] - ($reserved['reservedReduit'] ?? 0);
         <div class="ticket-type">
           <div class="ticket-type-header">
             <span class="ticket-type-name">Reduit</span>
-            <span class="tickets-remaining">(<?php echo $remainingReduit; ?> seats remaining)</span>
+            <span class="tickets-remaining">(<?php echo $remainingTickets; ?> seats remaining)</span>
           </div>
 
           <div class="ticket-details">
