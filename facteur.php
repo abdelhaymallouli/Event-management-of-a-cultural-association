@@ -122,10 +122,8 @@ $qtereservation = $reservation['qteBilletsNormal'] + $reservation['qteBilletsRed
 
     <div class="button-container">
         <button onclick="downloadFacture()">Download Invoice</button>
-        <form method="POST">
-            <input type="hidden" name="reservation_id" value="<?php echo $reservationId; ?>">
-            <button name='toMyTickets'>Show Tickets</button>
-        </form>
+            <a href="facteur.php?id=<?= urlencode($reservation['idReservation']) ?>" class="btn">Show Tickets</a>
+
     </div>
 </body>
 

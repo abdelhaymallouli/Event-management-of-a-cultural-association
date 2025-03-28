@@ -1,7 +1,7 @@
 <?php 
 $host = 'localhost';
 $dbname = 'farhaevents';
-$username = '';
+$username = 'root';
 $password = '';
 
 try{

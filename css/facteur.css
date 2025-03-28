@@ -121,3 +121,16 @@ button {
 button:hover {
     background: #0056b3;
 }
+
+a {
+    background: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+a:hover {
+    background: #0056b3;
+}
