@@ -42,7 +42,7 @@ This project is a PHP-based web application designed to manage event reservation
 ## Installation & Setup
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/event-management.git
+   git clone https://github.com/abdelhaymallouli/Event-management-of-a-cultural-association.git
    ```
 2. Start a local server (XAMPP recommended) and create a MySQL database named `association_farha`.
 3. Import the provided SQL file into MySQL.
