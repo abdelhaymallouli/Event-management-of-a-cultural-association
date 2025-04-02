@@ -22,13 +22,13 @@ This project is a PHP-based web application designed to manage event reservation
 │── index.php          # Home page (Event listing, search & filters)
 │── event.php          # Event details & ticket purchase
 │── login.php          # User login page
-│── register.php       # User registration page
+│── sign-up.php       # User registration page
 │── profile.php        # User profile & purchase history
 │── purchase.php       # Ticket purchase processing
 │── confirmation.php   # Purchase confirmation page
 │── logout.php         # User logout
-│── db.php             # Database connection
-│── style.css          # CSS styles
+│── config.php             # Database connection
+│── css/style.css          # CSS styles
 │── scripts.js         # JavaScript functions
 │── /images/           # Event images
 ```
