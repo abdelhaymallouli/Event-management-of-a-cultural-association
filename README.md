@@ -1,5 +1,7 @@
 # Event Management for Association FARHA
 
+![Association FARHA](screenshots/homePage.png)
+
 ## Description
 This project is a PHP-based web application designed to manage event reservations for the "Association FARHA." It allows users to browse, filter, and book event tickets while managing their profiles.
 
@@ -38,16 +40,19 @@ This project is a PHP-based web application designed to manage event reservation
    ```bash
    git clone https://github.com/abdelhaymallouli/Event-management-of-a-cultural-association.git
    ```
-2. Start a local server (XAMPP recommended) and create a MySQL database named `association_farha`.
+2. Start a local server (XAMPP recommended) and create a MySQL database named `farhaevents`.
 3. Import the provided SQL file into MySQL.
-4. Configure the database connection in `db.php`.
+4. Configure the database connection in `config.php`.
 5. Run the project by opening `index.php` in a web browser.
 
 ## Screenshots
-(Include screenshots of key pages here)
+![Association FARHA](screenshots/detailsPage.png)
+
+![Association FARHA](screenshots/Profile.png)
+
+
 
 ## Contributing
 Feel free to submit issues and pull requests to improve the project.
 
-## License
-This project is licensed under the MIT License.
+
