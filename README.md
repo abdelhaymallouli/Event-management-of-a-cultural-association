@@ -31,12 +31,6 @@ This project is a PHP-based web application designed to manage event reservation
 │── style.css          # CSS styles
 │── scripts.js         # JavaScript functions
 │── /images/           # Event images
-│── /admin/            # Admin panel (event management)
-│   ├── index.php
-│   ├── add_event.php
-│   ├── edit_event.php
-│   ├── delete_event.php
-│── /uploads/          # Storing invoices & tickets
 ```
 
 ## Installation & Setup
