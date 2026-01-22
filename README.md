@@ -1,58 +1,133 @@
-# Event Management for Association FARHA
+# Event Management System - Association FARHA
 
-![Association FARHA](screenshots/homePage.png)
 
-## Description
-This project is a PHP-based web application designed to manage event reservations for the "Association FARHA." It allows users to browse, filter, and book event tickets while managing their profiles.
 
-## Features
-- **Event Listing**: Users can search and filter events.
-- **Event Details & Booking System**: Detailed event pages with ticket purchasing options.
-- **User Authentication**: Registration and login system.
-- **User Profile Management**: View and edit personal details, purchase history.
-- **Ticket & Invoice Management**: Users can view tickets and invoices.
+## 📌 Project Overview
 
-## Technologies Used
-- **Frontend**: HTML, CSS, JavaScript
-- **Backend**: PHP
-- **Database**: MySQL (MariaDB in XAMPP)
-- **Version Control**: Git & GitHub
+This project is a comprehensive **Event Management Web Application** developed for "Association FARHA". It is designed to streamline the process of managing cultural events, booking tickets, and handling user reservations. The platform provides a seamless experience for both administrators and regular users to explore upcoming events, purchase tickets, and manage their activities.
 
-## Project Structure
+![Association FARHA Banner](screenshots/homepage.png)
+
+## 🚀 Features
+
+### for Users:
+
+- **Event Discovery:** Browse a catalog of upcoming cultural events (Music, Theater, Cinema, etc.).
+- **Advanced Filtering:** Search events by name, date range, or category.
+- **Detailed Event Pages:** View rich descriptions, images, prices, and venue information.
+- **Ticket Booking:** Securely book Regular or Reduced tariff tickets.
+- **User Dashboard:**
+  - **Profile Management:** Update personal information.
+  - **Ticket Wallet:** View purchased tickets with QR codes/IDs.
+  - **Invoices:** Download invoices for past purchases.
+
+### Additional Features:
+
+- **Responsive Design:** Optimized for desktop and mobile viewing.
+- **Real-time Availability:** Automatic calculation of remaining seats.
+- **Secure Authentication:** User registration and login system.
+
+## 🛠️ Technology Stack
+
+- **Frontend:**
+  - HTML5 & CSS3 (Custom styling)
+  - JavaScript (Client-side validation and interactivity)
+- **Backend:**
+  - PHP 8+ (Core logic)
+  - PDO (Database abstraction layer)
+- **Database:**
+  - MySQL / MariaDB (Relational database management)
+- **Server:**
+  - Apache (XAMPP/WAMP recommended)
+
+## 📂 Project Structure
+
+```bash
+/Event-management-of-a-cultural-association
+│
+├── config.php          # Database connection configuration
+├── index.php           # Landing page with event listing and filters
+├── event.php           # Individual event detailed view
+├── login.php           # User authentication (Login)
+├── sign-up.php         # User registration
+├── logout.php          # Session termination
+├── profile.php         # User dashboard (Tickets, Invoices, Settings)
+├── purchase.php        # Ticket purchase logic
+├── confirmation.php    # Booking success page
+├── invoice.php         # Generates printable invoices
+├── ticket.php          # Visual ticket view
+│
+├── css/
+│   └── style.css       # Main stylesheet
+│
+├── img/                # Assets and icons
+├── screenshots/        # Project preview images
+│
+└── farhaevents.sql     # Database import file
 ```
-/event-management/
-│── index.php          # Home page (Event listing, search & filters)
-│── event.php          # Event details & ticket purchase
-│── login.php          # User login page
-│── sign-up.php       # User registration page
-│── profile.php        # User profile & purchase history
-│── purchase.php       # Ticket purchase processing
-│── confirmation.php   # Purchase confirmation page
-│── logout.php         # User logout
-│── config.php             # Database connection
-│── css/style.css          # CSS styles
-│── scripts.js         # JavaScript functions
-│── /images/           # Event images
-```
 
-## Installation & Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/abdelhaymallouli/Event-management-of-a-cultural-association.git
+## ⚙️ Installation & Setup Guide
+
+Follow these steps to set up the project locally:
+
+### 1. Prerequisites
+
+- **XAMPP** (or any PHP/MySQL local server environment).
+- A web browser.
+
+### 2. Database Setup
+
+1. Open **phpMyAdmin** (usually at `http://localhost/phpmyadmin`).
+2. Create a new database named `farhaevents`.
+3. Click on **Import**.
+4. Choose the `farhaevents.sql` file located in the project root directory.
+5. Click **Go** to import the schema and seed data.
+
+### 3. Application Configuration
+
+1. Open `config.php` in your code editor.
+2. Verify the database credentials match your local setup:
+   ```php
+   $host = 'localhost';
+   $dbname = 'farhaevents';
+   $username = 'root'; // Default for XAMPP
+   $password = '';     // Default for XAMPP
    ```
-2. Start a local server (XAMPP recommended) and create a MySQL database named `farhaevents`.
-3. Import the provided SQL file into MySQL.
-4. Configure the database connection in `config.php`.
-5. Run the project by opening `index.php` in a web browser.
 
-## Screenshots
-![Association FARHA](screenshots/detailsPage.png)
+### 4. Running the Application
 
-![Association FARHA](screenshots/Profile.png)
+1. Move the project folder to your server's root directory (e.g., `C:\xampp\htdocs\`).
+2. Open your browser and navigate to:
+   `http://localhost/Event-management-of-a-cultural-association/`
 
+## ❓ Troubleshooting
 
+### "Events are not showing up on the home page!"
 
-## Contributing
-Feel free to submit issues and pull requests to improve the project.
+The system is designed to show **Upcoming Events** only (`WHERE dateEvent >= CURDATE()`).
 
+- Unless you have modified the database, the sample data includes events from **2025**.
+- If you are running this in 2026 or later, **all seed events are in the past**.
+- **Fix:**
+  1. Open `index.php`.
+  2. Modify the query to remove the date filter for testing purposes, or
+  3. Manually update the `dateEvent` in your database to future dates.
 
+### Database Connection Error
+
+- Ensure MySQL is running in XAMPP control panel.
+- Check if the `$dbname` in `config.php` matches exactly with the database name you created.
+
+## 📸 Screenshots
+
+### Event Details
+
+![Event Details](screenshots/detailsPage.png)
+
+### User Profile
+
+![User Profile](screenshots/Profile.png)
+
+---
+
+_Created by Abdelhay Mallouli_
