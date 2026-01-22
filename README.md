@@ -6,7 +6,7 @@
 
 This project is a comprehensive **Event Management Web Application** developed for "Association FARHA". It is designed to streamline the process of managing cultural events, booking tickets, and handling user reservations. The platform provides a seamless experience for both administrators and regular users to explore upcoming events, purchase tickets, and manage their activities.
 
-![Association FARHA Banner](screenshots/homepage.png)
+![Association FARHA Banner](screenshots/homePage.png)
 
 ## 🚀 Features
 
